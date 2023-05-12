@@ -2,8 +2,15 @@ class Demo1 extends AdventureScene {
     constructor() {
         super("demo1", "First Room");
     }
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('goblinCamp','goblin_camp.png')
+    }
+
 
     onEnter() {
+        
+        let gobCamp = this.add.image(910,540, "goblinCamp")
 
         let clip = this.add.text(this.w * 0.3, this.w * 0.3, "📎 paperclip")
             .setFontSize(this.s * 2)
@@ -59,6 +66,7 @@ class Demo1 extends AdventureScene {
             })
 
     }
+    
 }
 
 class Demo2 extends AdventureScene {

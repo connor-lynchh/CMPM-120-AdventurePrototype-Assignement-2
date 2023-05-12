@@ -9,6 +9,7 @@ class AdventureScene extends Phaser.Scene {
         this.name = name;
     }
 
+
     create() {
         this.transitionDuration = 1000;
 
