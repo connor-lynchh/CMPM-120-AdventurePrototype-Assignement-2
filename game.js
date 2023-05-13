@@ -436,32 +436,60 @@ class TheTower extends AdventureScene {
 
 class TopOfTower extends AdventureScene {
     constructor() {
-        super("topOfTower", "The second room has a long name (it truly does).");
+        super("topOfTower", "Top of the Tower");
     }
-    onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('demo1');
-            });
 
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
-            })
-            .on('pointerdown', () => this.gotoScene('outro'));
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('topTower','top_of_tower.jpg');
+        this.load.image('hero','herov2.jpg');
+        this.load.image('evilWizard','evil_wizard.gif');
+    }
+
+    onEnter() {
+
+        var topTower = this.add.image(710,540,"topTower")
+        topTower.setScale(1475/topTower.width,1080/topTower.height)
+
+        var hero = this.add.image(1200,540,"hero")
+        hero.setScale(400/hero.width,400/hero.height)
+
+
+        let top_tower_text = this.add.text(10,10,'This is it. This battle will determine the fate of the world. \n Succeed for this land to know peace once more. \n  Fail and the land will fall into ruination.',{color: '#ffffff',setFontSize: 0.5})
+        .setFontSize(this.s * 1.75);
+
+        let evilWiz = this.add.image(300,540,'evilWizard')
+        evilWiz.setScale(400/evilWiz.height,400/evilWiz.width)
+        .setInteractive()
+        .on('pointerover', () => {
+            if (this.hasItem("powerfulSword")) {
+                this.showMessage("You are strong enough to land a killing blow after an intense battle");
+            } else {
+                this.showMessage("You muster all the strength you have but life begins to slip away as the fight goes on");
+            }
+    })
+    .on('pointerdown', () => {
+        if (this.hasItem("powerfulSword")) {
+            this.showMessage("You slay the evil wizard!");
+            this.loseItem("powerfulSword");
+            this.tweens.add({
+                targets: evilWiz,
+                alpha: 0,
+                duration: 3000,
+                onComplete: () => {this.gotoScene('victory')}
+            });
+        }
+        else {
+            this.showMessage("You fall to the ground defeated by the evil wizard");
+            this.tweens.add({
+                targets: hero,
+                alpha: 0,
+                duration: 3000,
+                onComplete: () => {this.gotoScene('defeat')}
+            });
+        }
+    })    
+
     }
 }
 
@@ -493,9 +521,28 @@ class Victory extends Phaser.Scene {
     constructor() {
         super('victory');
     }
+
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('victory','victory.jpg');
+        this.load.image('arrow','arrowv3.png');
+    }
+
     create() {
-        this.add.text(50, 50, "That's all!").setFontSize(50);
-        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
+
+        var victory = this.add.image(710,540,"victory");
+        victory.setScale(1475/victory.width,1080/victory.height);
+
+        this.graphics = this.add.graphics();
+
+        this.graphics.fillStyle(0xffffff, 1);
+        this.graphics.fillRect(500,450,500,100);
+        this.graphics.fillRect(1200,950,200,75);
+
+
+        this.add.text(650, 475, "Victory!",{fontSize:50, color: '#000000'});
+        this.add.text(1220, 975, "Start Over?",{fontSize:25, color: '#000000'});
+        //this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
 }
@@ -504,9 +551,26 @@ class Defeat extends Phaser.Scene {
     constructor() {
         super('defeat');
     }
+
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('defeat','defeat.jpg');
+    }
+
     create() {
-        this.add.text(50, 50, "That's all!").setFontSize(50);
-        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
+
+        var defeat = this.add.image(710,540,"defeat");
+        defeat.setScale(1475/defeat.width,1080/defeat.height);
+
+        this.graphics = this.add.graphics();
+
+        this.graphics.fillStyle(0xffffff, 1);
+        this.graphics.fillRect(500,450,500,100);
+        this.graphics.fillRect(1200,950,200,75);
+
+
+        this.add.text(650, 475, "Defeat",{fontSize:50, color: '#000000'});
+        this.add.text(1220, 975, "Start Over?",{fontSize:25, color: '#000000'});
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
 }
