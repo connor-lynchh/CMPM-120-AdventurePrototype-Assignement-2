@@ -58,7 +58,7 @@ Asset sources:
 - [evil_wizard.png](https://luizmelo.itch.io/evil-wizard-2) This image started as gif but I soon realized through some light research that gifs are not supported in phaser or there was just to many hoops to jump through that I didn't want to bother to get a gif in. Thus from the gif I was able to get the first frame of the animation and resize it to fit my game
 - [prisoner.png](https://pixelartmaker.com/art/db2658e98982ade) Had to resize the image to fit dimensions of game
 - [key.png](https://www.pixilart.com/art/key-c0274e0785c3672) Had to resize the image to fit dimensions of game
-- [map.png] (https://pixelartmaker.com/art/31dd12bd6caccb1) Had to resize the image to fit dimensions of game
+- [map.png](https://pixelartmaker.com/art/31dd12bd6caccb1) Had to resize the image to fit dimensions of game
 
 
 Code sources:
