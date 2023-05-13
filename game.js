@@ -151,36 +151,112 @@ class GoblinCamp extends AdventureScene {
         this.load.image('key','key.png');
         this.load.image('map','map.png');
         this.load.image('prisoner','prisoner.png');
-        this.load.image('hero','hero.png');
+        this.load.image('hero','herov2.jpg');
     }
     onEnter() {
 
         var gobCamp = this.add.image(710,540, "gobCamp")
         gobCamp.setScale(1475/gobCamp.width,1080/gobCamp.height)
 
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('bronstone');
-            });
+        let gob_text = this.add.text(10,10,'Oh no you lost your horse \n and now need to find directions to the wizards tower. \n Maybe this goblin camp has some?',{color: '0x000000',setFontSize: 0.5})
+        .setFontSize(this.s * 1.75);
 
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
+        let key = this.add.image(415,400,'key')
+            key.setScale(75/key.height,75/key.width)
             .setInteractive()
             .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
-            })
-            .on('pointerdown', () => this.gotoScene('victory'));
+            this.showMessage("A key for the jail cell.")
+    })
+    .on('pointerdown', () => {
+        this.showMessage("You pick up the key.");
+        this.gainItem('key');
+        this.tweens.add({
+            targets: key,
+            y: `-=${2 * this.s}`,
+            alpha: { from: 1, to: 0 },
+            duration: 500,
+            onComplete: () => key.destroy()
+        });
+    })
+
+        let prisoner = this.add.image(875,235,'prisoner')
+            prisoner.setScale(100/prisoner.height,100/prisoner.width)
+            .setInteractive()
+            .on('pointerover', () => {
+            if (this.hasItem("key")) {
+                this.showMessage("You use the key to free the prisoner");
+            } else {
+                this.showMessage("You need the key to release the prisoner");
+            }
+            
+    })
+    .on('pointerdown', () => {
+        if (this.hasItem("key")){
+        this.showMessage("You free the prisoner! He can help you get the directions now.");
+        this.gainItem('prisoner');
+        this.tweens.add({
+            targets: prisoner,
+            y: `-=${2 * this.s}`,
+            alpha: { from: 1, to: 0 },
+            duration: 500,
+            onComplete: () => prisoner.destroy()
+        });
+    }
+    })
+
+        let map = this.add.image(670,300,'map')
+        map.setScale(100/map.height,100/map.width)
+        .setInteractive()
+        .on('pointerover', () => {
+            if (this.hasItem("prisoner")) {
+                this.showMessage("You can now get the directions to the wizard with the help of the prisoner");
+            } else {
+                this.showMessage("You will need help if you want these directions");
+            }
+            
+    })
+    .on('pointerdown', () => {
+        if (this.hasItem("prisoner")){
+        this.showMessage("With the directions to the wizard you can now leave the goblin camp");
+        this.gainItem('map');
+        this.tweens.add({
+            targets: map,
+            y: `-=${2 * this.s}`,
+            alpha: { from: 1, to: 0 },
+            duration: 500,
+            onComplete: () => map.destroy()
+        });
+    }
+    })
+
+        let hero = this.add.image(800,1000,'hero')
+        hero.setScale(150/hero.height,150/hero.width)
+        .setInteractive()
+        .on('pointerover', () => {
+            if (this.hasItem("map")) {
+                this.showMessage("Your are ready to leave");
+            } else {
+                this.showMessage("You need directions before you can leave");
+            }
+    })
+    .on('pointerdown', () => {
+        if (this.hasItem("map")) {
+            this.loseItem("map");
+            this.loseItem("key");
+            this.loseItem("prisoner");
+            this.showMessage("You are back on track now to defeat the wizard");
+            this.tweens.add({
+                targets: hero,
+                alpha: 0,
+                x:1600,
+                y:1000,
+                duration: 1000,
+                ease: 'cubic.out',
+                onComplete: () => {this.gotoScene('oldBridge')}
+            });
+        }
+    })    
+
     }
 }
 
@@ -188,62 +264,124 @@ class OldBridge extends AdventureScene {
     constructor() {
         super("oldBridge", "Old Bridge");
     }
-    onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('demo1');
-            });
 
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('portal','portal.png');
+        this.load.image('hero','herov2.jpg');
+        this.load.image('oldBridge','old_bridge.jpg');
+        this.load.image('arrow','arrowv3.png');
+
+    }
+    onEnter() {
+
+        var bridge = this.add.image(710,540, "oldBridge")
+        bridge.setScale(1475/bridge.width,1080/bridge.height)
+
+        var hero = this.add.image(250,700,"hero")
+        hero.setScale(150/hero.width,150/hero.height)
+
+
+        let bridge_text = this.add.text(10,10,'You come to an old bridge that continues onwards. \n The map is saying to go through the portal to reach the wizard. \n You have two options',{color: '0x000000',setFontSize: 0.5})
+        .setFontSize(this.s * 1.75);
+
+        let portal = this.add.image(215,500,'portal')
+            portal.setScale(150/portal.height)
             .setInteractive()
             .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
-            })
-            .on('pointerdown', () => this.gotoScene('outro'));
+            this.showMessage("A portal to the Wizard's tower")
+    })
+    .on('pointerdown', () => {
+        this.showMessage("You go through the portal");
+        this.tweens.add({
+            targets: hero,
+            alpha: 0,
+            duration: 500,
+            onComplete: () => this.gotoScene('theTower')
+        });
+    })
+
+        let arrow = this.add.image(1200,300,'arrow')
+            arrow.setScale(100/arrow.height,100/arrow.width)
+            .setInteractive()
+            .on('pointerover', () => {
+            this.showMessage("Cross to the other side of the bridge?")      
+    })
+    .on('pointerdown', () => {
+        this.showMessage("You cross the bridge");
+        this.tweens.add({
+            targets: hero,
+            y: 0,
+            x : 1600,
+            alpha:0,
+            duration: 2000,
+            ease: 'cubic.out',
+            onComplete: () => this.gotoScene('swordInStone')
+        });
+    }
+    )
+        
     }
 }
 
 class SwordInStone extends AdventureScene {
     constructor() {
-        super("swordInStone", "The second room has a long name (it truly does).");
+        super("swordInStone", "Secert Grove");
+    }
+
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('grove','sword_in_stone.png');
+        this.load.image('powerfuSword','powerful_sword.png');
+        this.load.image('arrow','arrowv3.png');
+
+
     }
     onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('demo1');
-            });
 
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
-            })
-            .on('pointerdown', () => this.gotoScene('outro'));
-    }
+        
+        var grove = this.add.image(710,540,"grove")
+        grove.setScale(1475/grove.width,1080/grove.height)
+
+
+        let grove_text = this.add.text(10,10,'You found a secert grove with a powerful sword! \n This will probably be useful for your \n fight aganist the wizard',{color: '0x000000',setFontSize: 0.5})
+        .setFontSize(this.s * 1.75);
+
+        let powerSword = this.add.image(215,500,'powerfulSword')
+        portal.setScale(150/powerfulSword.height)
+        .setInteractive()
+        .on('pointerover', () => {
+        this.showMessage("A portal to the Wizard's tower")
+})
+.on('pointerdown', () => {
+    this.showMessage("You go through the portal");
+    this.tweens.add({
+        targets: hero,
+        alpha: 0,
+        duration: 500,
+        onComplete: () => this.gotoScene('theTower')
+    });
+})
+
+    let arrow = this.add.image(1200,300,'arrow')
+        arrow.setScale(100/arrow.height,100/arrow.width)
+        .setInteractive()
+        .on('pointerover', () => {
+        this.showMessage("Cross to the other side of the bridge?")      
+})
+.on('pointerdown', () => {
+    this.showMessage("You cross the bridge");
+    this.tweens.add({
+        targets: hero,
+        y: 0,
+        x : 1600,
+        alpha:0,
+        duration: 2000,
+        ease: 'cubic.out',
+        onComplete: () => this.gotoScene('swordInStone')
+    });
+}
+)
 }
 
 class TheTower extends AdventureScene {
