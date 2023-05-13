@@ -331,8 +331,8 @@ class SwordInStone extends AdventureScene {
 
     preload(){
         this.load.path = './assets/';
-        this.load.image('grove','sword_in_stone.png');
-        this.load.image('powerfuSword','powerful_sword.png');
+        this.load.image('grove','sword_in_stone.jpg');
+        this.load.image('powerfulSword','powerful_sword.png');
         this.load.image('arrow','arrowv3.png');
 
 
@@ -348,40 +348,35 @@ class SwordInStone extends AdventureScene {
         .setFontSize(this.s * 1.75);
 
         let powerSword = this.add.image(215,500,'powerfulSword')
-        portal.setScale(150/powerfulSword.height)
+        powerSword.setScale(200/powerfulSword.width,150/powerfulSword.height)
         .setInteractive()
         .on('pointerover', () => {
-        this.showMessage("A portal to the Wizard's tower")
+        this.showMessage("Pickup the sword")
 })
 .on('pointerdown', () => {
-    this.showMessage("You go through the portal");
+    this.gainItem('powerfulSword');
+    this.showMessage("You now have the powerful sword!");
     this.tweens.add({
-        targets: hero,
-        alpha: 0,
+        targets: powerSword,
+        y: `-=${2 * this.s}`,
+        alpha: { from: 1, to: 0 },
         duration: 500,
-        onComplete: () => this.gotoScene('theTower')
+        onComplete: () => powerSword.destroy()
     });
 })
 
-    let arrow = this.add.image(1200,300,'arrow')
+    let arrow = this.add.image(1000,800,'arrow')
         arrow.setScale(100/arrow.height,100/arrow.width)
         .setInteractive()
         .on('pointerover', () => {
-        this.showMessage("Cross to the other side of the bridge?")      
+        this.showMessage("Go back?")      
 })
 .on('pointerdown', () => {
-    this.showMessage("You cross the bridge");
-    this.tweens.add({
-        targets: hero,
-        y: 0,
-        x : 1600,
-        alpha:0,
-        duration: 2000,
-        ease: 'cubic.out',
-        onComplete: () => this.gotoScene('swordInStone')
-    });
+    this.showMessage("You go back to the bridge");
+    this.gotoScene('oldBridge');
 }
-)
+    )
+    }
 }
 
 class TheTower extends AdventureScene {
