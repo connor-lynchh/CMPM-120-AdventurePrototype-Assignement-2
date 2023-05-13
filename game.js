@@ -17,7 +17,7 @@ class Bronstone extends AdventureScene {
         var home = this.add.image(710,540, "home")
         home.setScale(1475/home.width,1080/home.height);
         
-        let start_text = this.add.text(10,10,'You are a mighty hero who must rid the evil wizard from these lands.\n Your hometown Bronstone is where you begin.\n Choose your weapon',{color: '0x000000',setFontSize: 0.5})
+        let start_text = this.add.text(10,10,'You are a mighty hero who must rid the evil wizard from these lands.\n Your hometown Bronstone is where you begin.\n Choose your weapon',{color: '#fc0303',setFontSize: 0.5})
             .setFontSize(this.s * 1.75);
 
         let sword = this.add.image(240,540,'sword')
@@ -158,7 +158,7 @@ class GoblinCamp extends AdventureScene {
         var gobCamp = this.add.image(710,540, "gobCamp")
         gobCamp.setScale(1475/gobCamp.width,1080/gobCamp.height)
 
-        let gob_text = this.add.text(10,10,'Oh no you lost your horse \n and now need to find directions to the wizards tower. \n Maybe this goblin camp has some?',{color: '0x000000',setFontSize: 0.5})
+        let gob_text = this.add.text(10,10,'Oh no you lost your horse \n and now need to find directions to the wizards tower. \n Maybe this goblin camp has some?',{color: '#fc0303',setFontSize: 0.5})
         .setFontSize(this.s * 1.75);
 
         let key = this.add.image(415,400,'key')
@@ -282,7 +282,7 @@ class OldBridge extends AdventureScene {
         hero.setScale(150/hero.width,150/hero.height)
 
 
-        let bridge_text = this.add.text(10,10,'You come to an old bridge that continues onwards. \n The map is saying to go through the portal to reach the wizard. \n You have two options',{color: '0x000000',setFontSize: 0.5})
+        let bridge_text = this.add.text(10,10,'You come to an old bridge that continues onwards. \n The map is saying to go through the portal to reach the wizard. \n You have two options',{color: '#ffffff',setFontSize: 0.5})
         .setFontSize(this.s * 1.75);
 
         let portal = this.add.image(215,500,'portal')
@@ -344,11 +344,11 @@ class SwordInStone extends AdventureScene {
         grove.setScale(1475/grove.width,1080/grove.height)
 
 
-        let grove_text = this.add.text(10,10,'You found a secert grove with a powerful sword! \n This will probably be useful for your \n fight aganist the wizard',{color: '0x000000',setFontSize: 0.5})
+        let grove_text = this.add.text(10,10,'You found a secert grove with a powerful sword! \n This will probably be useful for your \n fight aganist the wizard',{color: '#ffffff',setFontSize: 0.5})
         .setFontSize(this.s * 1.75);
 
-        let powerSword = this.add.image(215,500,'powerfulSword')
-        powerSword.setScale(200/powerfulSword.width,150/powerfulSword.height)
+        let powerSword = this.add.image(550,450,'powerfulSword')
+        powerSword.setScale(200/powerSword.width,600/powerSword.height)
         .setInteractive()
         .on('pointerover', () => {
         this.showMessage("Pickup the sword")
@@ -365,8 +365,8 @@ class SwordInStone extends AdventureScene {
     });
 })
 
-    let arrow = this.add.image(1000,800,'arrow')
-        arrow.setScale(100/arrow.height,100/arrow.width)
+    let arrow = this.add.image(1200,950,'arrow')
+        arrow.setScale(250/arrow.height,250/arrow.width)
         .setInteractive()
         .on('pointerover', () => {
         this.showMessage("Go back?")      
@@ -381,33 +381,57 @@ class SwordInStone extends AdventureScene {
 
 class TheTower extends AdventureScene {
     constructor() {
-        super("theTower", "The second room has a long name (it truly does).");
+        super("theTower", "The Tower");
+    }
+
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('theTower','wizard_tower.jpg');
+        this.load.image('hero','herov2.jpg');
+        this.load.image('arrow','arrowv3.png');
     }
     onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('demo1');
-            });
 
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
-            })
-            .on('pointerdown', () => this.gotoScene('outro'));
-    }
+        var tower = this.add.image(710,540,"theTower")
+        tower.setScale(1475/tower.width,1080/tower.height)
+
+        var hero = this.add.image(850,700,"hero")
+        hero.setScale(150/hero.width,150/hero.height)
+
+        let tower_text = this.add.text(10,10,'You finally made it, only a couple more steps \n and you will reach the top. \n Go forth and defeat the evil wizard!',{color: '#ffffff',setFontSize: 0.5})
+        .setFontSize(this.s * 1.75);
+
+
+        let arrow = this.add.image(1050,600,'arrow')
+        arrow.angle = -75
+        arrow.setScale(150/arrow.height,150/arrow.width)
+        .setInteractive()
+        .on('pointerover', () => {
+        this.showMessage("theres no turning back")  
+        this.tweens.add({
+            targets: arrow,
+            y: {from: 600, to: 620},
+            x : 1050,
+            repeat: -1,
+            duration: 1000,
+            ease: 'cubic.out',
+        });    
+})
+.on('pointerdown', () => {
+    this.showMessage("TO THE TOP");
+    this.tweens.add({
+        targets: hero,
+        y: 0,
+        x : 1025,
+        alpha:0,
+        duration: 2000,
+        ease: 'cubic.out',
+        onComplete: () => this.gotoScene('topOfTower')
+    });
+}
+
+    )}
+    
 }
 
 class TopOfTower extends AdventureScene {
