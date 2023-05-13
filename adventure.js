@@ -64,6 +64,7 @@ class AdventureScene extends Phaser.Scene {
         });
     }
 
+
     updateInventory() {
         if (this.inventory.length > 0) {
             this.tweens.add({
@@ -91,6 +92,22 @@ class AdventureScene extends Phaser.Scene {
             this.inventoryTexts.push(text);
         });
     }
+
+    shakeObj(art) {
+        this.tweens.add({
+            targets: art,
+            x: '+=' + this.s,
+            repeat: 2,
+            yoyo: true,
+            ease: 'Sine.inOut',
+            duration: 100
+        });
+    }
+
+    setBackgroundSize(image){
+        image.setScale(1475/image.width,1080/image.height);
+    }
+
 
     hasItem(item) {
         return this.inventory.includes(item);

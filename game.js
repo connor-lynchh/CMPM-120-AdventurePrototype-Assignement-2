@@ -15,7 +15,9 @@ class Bronstone extends AdventureScene {
         
 
         var home = this.add.image(710,540, "home")
-        home.setScale(1475/home.width,1080/home.height);
+        //home.setScale(1475/home.width,1080/home.height);
+
+        this.setBackgroundSize(home);
         
         let start_text = this.add.text(10,10,'You are a mighty hero who must rid the evil wizard from these lands.\n Your hometown Bronstone is where you begin.\n Choose your weapon',{color: '#fc0303',setFontSize: 0.5})
             .setFontSize(this.s * 1.75);
@@ -64,6 +66,7 @@ class Bronstone extends AdventureScene {
                     this.showMessage("Your are ready to leave");
                 } else {
                     this.showMessage("Choose your weapon first before you ride out");
+                    this.shakeObj(horse);
                 }
             })
             .on('pointerdown', () => {
@@ -156,7 +159,9 @@ class GoblinCamp extends AdventureScene {
     onEnter() {
 
         var gobCamp = this.add.image(710,540, "gobCamp")
-        gobCamp.setScale(1475/gobCamp.width,1080/gobCamp.height)
+        //gobCamp.setScale(1475/gobCamp.width,1080/gobCamp.height)
+
+        this.setBackgroundSize(gobCamp);
 
         let gob_text = this.add.text(10,10,'Oh no you lost your horse \n and now need to find directions to the wizards tower. \n Maybe this goblin camp has some?',{color: '#fc0303',setFontSize: 0.5})
         .setFontSize(this.s * 1.75);
@@ -187,6 +192,7 @@ class GoblinCamp extends AdventureScene {
                 this.showMessage("You use the key to free the prisoner");
             } else {
                 this.showMessage("You need the key to release the prisoner");
+                this.shakeObj(prisoner);
             }
             
     })
@@ -212,6 +218,7 @@ class GoblinCamp extends AdventureScene {
                 this.showMessage("You can now get the directions to the wizard with the help of the prisoner");
             } else {
                 this.showMessage("You will need help if you want these directions");
+                this.shakeObj(map);
             }
             
     })
@@ -237,6 +244,7 @@ class GoblinCamp extends AdventureScene {
                 this.showMessage("Your are ready to leave");
             } else {
                 this.showMessage("You need directions before you can leave");
+                this.shakeObj(hero);
             }
     })
     .on('pointerdown', () => {
@@ -276,7 +284,9 @@ class OldBridge extends AdventureScene {
     onEnter() {
 
         var bridge = this.add.image(710,540, "oldBridge")
-        bridge.setScale(1475/bridge.width,1080/bridge.height)
+        //bridge.setScale(1475/bridge.width,1080/bridge.height)
+
+        this.setBackgroundSize(bridge);
 
         var hero = this.add.image(250,700,"hero")
         hero.setScale(150/hero.width,150/hero.height)
@@ -341,8 +351,9 @@ class SwordInStone extends AdventureScene {
 
         
         var grove = this.add.image(710,540,"grove")
-        grove.setScale(1475/grove.width,1080/grove.height)
+        //grove.setScale(1475/grove.width,1080/grove.height)
 
+        this.setBackgroundSize(grove);
 
         let grove_text = this.add.text(10,10,'You found a secert grove with a powerful sword! \n This will probably be useful for your \n fight aganist the wizard',{color: '#ffffff',setFontSize: 0.5})
         .setFontSize(this.s * 1.75);
@@ -393,7 +404,9 @@ class TheTower extends AdventureScene {
     onEnter() {
 
         var tower = this.add.image(710,540,"theTower")
-        tower.setScale(1475/tower.width,1080/tower.height)
+        //tower.setScale(1475/tower.width,1080/tower.height)
+
+        this.setBackgroundSize(tower);
 
         var hero = this.add.image(850,700,"hero")
         hero.setScale(150/hero.width,150/hero.height)
@@ -449,7 +462,9 @@ class TopOfTower extends AdventureScene {
     onEnter() {
 
         var topTower = this.add.image(710,540,"topTower")
-        topTower.setScale(1475/topTower.width,1080/topTower.height)
+        //topTower.setScale(1475/topTower.width,1080/topTower.height)
+        //alert('i change scale');
+        this.setBackgroundSize(topTower);
 
         var hero = this.add.image(1200,540,"hero")
         hero.setScale(400/hero.width,400/hero.height)
@@ -561,6 +576,7 @@ class Defeat extends Phaser.Scene {
 
         var defeat = this.add.image(710,540,"defeat");
         defeat.setScale(1475/defeat.width,1080/defeat.height);
+        
 
         this.graphics = this.add.graphics();
 
@@ -574,7 +590,6 @@ class Defeat extends Phaser.Scene {
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
 }
-
 
 
 const game = new Phaser.Game({
